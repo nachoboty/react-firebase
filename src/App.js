@@ -1,11 +1,12 @@
 import React from "react";
 //Importamos la aplicación/credenciales
 // import firebaseApp from "./firebase/credenciales";
+import firebaseApp from "./firebase/credenciales";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
-/* import { getAuth, onAuthStateChanged } from "firebase/auth";
-const auth = getAuth(firebaseApp); */
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+const auth = getAuth(firebaseApp);
 
 function App() {
   return (
