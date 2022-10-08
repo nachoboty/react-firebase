@@ -1,7 +1,7 @@
 import React from "react";
 //Importamos la aplicación/credenciales
 // import firebaseApp from "./firebase/credenciales";
-import firebaseApp from "./firebase/credenciales";
+import {firebaseApp} from "./firebase/credenciales";
 import Login from "./screens/Login/Main";
 import Loading from "./screens/Loading/Main";
 import Home from "./screens/Home/Main";

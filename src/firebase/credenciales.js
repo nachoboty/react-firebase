@@ -1,5 +1,6 @@
 // Importamos la función para inicializar la aplicación de Firebase
 import { initializeApp } from "firebase/app";
+import { getFirestore} from "firebase/firestore";
 
 // Añade aquí tus credenciales
 const firebaseConfig = {
@@ -14,5 +15,9 @@ const firebaseConfig = {
 
 // Inicializamos la aplicación y la guardamos en firebaseApp
 const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 // Exportamos firebaseApp para poder utilizarla en cualquier lugar de la aplicación
-export default firebaseApp;
+export {
+  firebaseApp,
+  db
+}
