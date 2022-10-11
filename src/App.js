@@ -7,7 +7,7 @@ import Loading from "./screens/Loading/Main";
 import Home from "./screens/Home/Main";
 import { setUser } from "./redux/actions/clientActions";
 import { useDispatch, useSelector } from "react-redux";
-import {getUserById} from "./firebase/functions/users";
+import { getUserById } from "./firebase/functions/users";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -18,16 +18,16 @@ const auth = getAuth(firebaseApp);
 function App() {
   const dispatch = useDispatch();
   // Creamos un estado para saber si el usuario está logueado o no
-  // const [user, setUser] = React.useState(undefined);
-
+  
   // Creamos un estado para saber si la aplicación está cargando o no
   const [loading, setLoading] = React.useState(true);
-  var user = useSelector((state) => state.clientReducer.user);
+  var user_data = useSelector((state) => state.clientReducer.user);
+  
 
-  // Cuando auth cambia, se ejecuta esta función
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log({ user });
         // Si el usuario está logueado, dispatcheamos setUser con el usuario
         const uid = user.uid;
         getUserById(uid).then((user_data) => {
@@ -37,23 +37,23 @@ function App() {
         // Si el usuario no está logueado, dispatcheamos setUser con null
         dispatch(setUser(null));
       }
-      // Cuando termina de ejecutarse, setLoading es false
-      setLoading(false);
     });
     // Cuando se desmonta el componente, se ejecuta esta función
     return unsubscribe;
   }, []);
 
+  React.useEffect(() => {
+    console.log({ user_data });
+    setLoading(false);
+  }, [user_data]);
   // Si la aplicación está cargando, mostramos el componente Loading
-  if (loading && user === undefined) {
+  if (loading || user_data === undefined) {
     return <Loading />;
   }
-
   // Si el usuario está logueado, mostramos el componente Home
-  if (user) {
+  if (user_data) {
     return <Home />;
   }
-
   // Si el usuario no está logueado, mostramos el componente Login
   return <Login />;
 }

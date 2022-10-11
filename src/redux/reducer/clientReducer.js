@@ -1,5 +1,5 @@
 const initialState = {
-    user: null
+    user: undefined
 };
 
 function clientReducer(state = initialState, action) {

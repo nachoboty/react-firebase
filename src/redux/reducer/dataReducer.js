@@ -1,5 +1,9 @@
 const initialState = {
-    user: null
+    principal_data: undefined,
+    principal_catalogo_data: undefined,
+    principal_acumulado_data: undefined,
+    principal_acumulado_catalogo_data: undefined,
+    principal_pvps_data: undefined
 };
 
 function dataReducer(state = initialState, action) {
@@ -7,27 +11,27 @@ function dataReducer(state = initialState, action) {
         case "SET_PRINCIPAL_DATA":
             return {
                 ...state,
-                user: action.payload,
+                principal_data: action.payload,
             };
         case "SET_PRINCIPAL_CATALOGO_DATA":
             return {
                 ...state,
-                user: action.payload,
+                principal_catalogo_data: action.payload,
             };
         case "SET_PRINCIPAL_ACUMULADO_DATA":
             return {
                 ...state,
-                user: action.payload,
+                principal_acumulado_data: action.payload,
             };
         case "SET_PRINCIPAL_ACUMULADO_CATALOGO_DATA":
             return {
                 ...state,
-                user: action.payload,
+                principal_acumulado_catalogo_data: action.payload,
             };
         case "SET_PRINCIPAL_PVPS_DATA":
             return {
                 ...state,
-                user: action.payload,
+                principal_pvps_data: action.payload,
             };
         default:
             return state;
