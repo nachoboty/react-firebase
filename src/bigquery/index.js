@@ -1,27 +1,45 @@
 import { bigquery } from "./credentials";
+const heroku_url = "https://guarded-cove-68359.herokuapp.com/"
 const url = 'https://node-bigquery-query-2-67gtyoiqxq-uc.a.run.app';
 const axios = require('axios');
+// Import fetch
 
-async function get_info_by_query(query) {
+export async function get_info_by_query(query) {
     const json = {
         query: query
     };
-    const response = await axios.post(url, json);
+    // const url_to_go = `https://cors-anywhere.herokuapp.com/${url}`;
+    // ADD Access-Control-Allow-Origin
+    const url_to_go = `localhost:4000/bigquery/query`;
+    const response = await axios('/bigquery/query', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: json
+    });
     return response.data;
+    // console.log(response.data);
+    // return response.data;
+
+    // const response = await axios.post(url, json);
+    // console.log({ response });
+    // return response.data;
 }
 
-async function get_principal_by_brand(brand, site=null) {
-    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1);
-    const query = `SELECT * FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal\``;
+export async function get_principal_by_brand(brand, site = null) {
+    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1) + "_airflow";
+    let query = `SELECT * FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal\``;
     if (site) {
-        const query = `SELECT * FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal\` WHERE MLA like '%${site}%'`;
+        query = `SELECT * FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal\` WHERE MLA like '%${site}%'`;
     }
     const response = await get_info_by_query(query);
+    // console.log({ response });
     return response;
 }
 
-async function get_principal_catalogo_by_brand(brand, site=null) {
-    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1);
+export async function get_principal_catalogo_by_brand(brand, site = null) {
+    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1) + "_airflow";
     const query = `SELECT * FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal_catalogo\``;
     if (site) {
         const query = `SELECT * FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal_catalogo\` WHERE MLA like '%${site}%'`;
@@ -30,13 +48,12 @@ async function get_principal_catalogo_by_brand(brand, site=null) {
     return response;
 }
 
-async function get_principal_acumulados_by_brand(brand, type = 'acumulado', site=null) {
+export async function get_principal_acumulados_by_brand(brand, type = 'acumulado', site = null) {
     // Check if type is 'acumulado' or 'acumulado_catalogo'
     if (type != 'acumulado' && type != 'acumulado_catalogo') {
         return 'Tipe must be "acumulado" or "acumulado_catalogo"';
     }
-    const brand = req.body.brand;
-    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1);
+    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1) + "_airflow";
     const query = `SELECT MLA FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal\``;
     if (site) {
         const query = `SELECT MLA FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal\` WHERE MLA like '%${site}%'`;
@@ -53,25 +70,25 @@ async function get_principal_acumulados_by_brand(brand, type = 'acumulado', site
     return acumulado_data[0];
 }
 
-async function get_principal_acumulado_by_brand(brand, site=null) {
+export async function get_principal_acumulado_by_brand(brand, site = null) {
     const type = 'acumulado';
     return await get_principal_acumulados_by_brand(brand, site);
 }
 
-async function get_principal_acumulado_catalogo_by_brand(brand, site=null) {
+export async function get_principal_acumulado_catalogo_by_brand(brand, site = null) {
     const type = 'acumulado_catalogo';
     return await get_principal_acumulados_by_brand(brand, site);
 }
 
-async function get_principal_get_pvps_by_brand(brand, site=null) {
-    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1);
+export async function get_principal_get_pvps_by_brand(brand, site = null) {
+    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1) + "_airflow";
     const query = `SELECT * FROM \`boty-marcas-2.${brand_first_letter_uppercase}.pvps\``;
     const response = await get_info_by_query(query);
     return response;
 }
 
-async function get_search_parameters_by_brand(brand, site=null) {
-    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1);
+export async function get_search_parameters_by_brand(brand, site = null) {
+    const brand_first_letter_uppercase = brand.charAt(0).toUpperCase() + brand.slice(1) + "_airflow";
     const query = `SELECT DISTINCT KEY_SEARCH, NICKNAME_SEARCH FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal\``;
     if (site) {
         const query = `SELECT DISTINCT KEY_SEARCH, NICKNAME_SEARCH FROM \`boty-marcas-2.${brand_first_letter_uppercase}.principal\` WHERE MLA like '%${site}%'`;

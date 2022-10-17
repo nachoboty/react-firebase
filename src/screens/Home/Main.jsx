@@ -1,6 +1,9 @@
 import React from 'react'
 import { firebaseApp, db } from '../../firebase/credenciales'
 import { doc, setDoc, deleteDoc, getDoc, updateDoc, getDocs, collection } from "firebase/firestore";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Admin from './Admin';
+import Data from './Data';
 import {
   getAuth,
   onAuthStateChanged,
@@ -26,10 +29,19 @@ function Main() {
   }
 
   return (
-    <div>
-      <h1>Home</h1>
+    <Router>
       <button onClick={handleLogOut}>Cerrar sesión</button>
-    </div>
+      {/* 
+      Add a botton to got to admin page and the data page
+      */}
+      <button onClick={() => { window.location.href = '/admin' }}>Admin</button>
+      <button onClick={() => { window.location.href = '/data' }}>Data</button>
+      <Routes>
+        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/data" element={<Data />} />
+      </Routes>
+    </Router>
   )
 }
 
